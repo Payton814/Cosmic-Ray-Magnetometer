@@ -11,10 +11,14 @@ import numpy as np
 ## 0 is on the plane. Due to numerical precision, a point in the plane can give a VERY small positive or negative value
 
 def getTangentPlane(r, lat, long):
-    x0 = r**2*np.sin(lat*np.pi/180)*np.cos(long*np.pi/180)
-    y0 = r**2*np.sin(lat*np.pi/180)*np.sin(long*np.pi/180)
+
+    ## Take the radius, latitude and longitude, and convert into a x, y, z point on the sphere 
+    x0 = r*np.sin(lat*np.pi/180)*np.cos(long*np.pi/180)
+    y0 = r*np.sin(lat*np.pi/180)*np.sin(long*np.pi/180)
     z0 = r*np.cos(lat*np.pi/180)
 
+
+    ## This is the function that describes a plane with normal in the direction of (x0, y0, z0)
     def f(x, y, z):
         return 2*x0*(x - x0) + 2*y0*(y - y0) + 2*z0*(z-z0)
     
