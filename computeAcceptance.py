@@ -6,6 +6,9 @@ from updateSC import updateSC
 from spacecraft import spacecraft
 from projectCRCone import projectCRCone
 from scipy.interpolate import RegularGridInterpolator
+import time
+
+start_time = time.time()
 
 ## This is the main code for the Cosmic Ray Magnetometer monte carlo code
 
@@ -33,7 +36,7 @@ b = []
 b2max = 0
 b2min = 10000000000000000000000000
 
-Nthrow = 10000000
+Nthrow = 1000000
 
 ## Enter the monte carlo loop
 ## Currently done horribly with just a giant for loop
@@ -72,8 +75,6 @@ for i in range(Nthrow):
 
     updateSC(sc)
 
-plt.scatter(a, b, marker = 'o')
-plt.show()
 
 print(np.sqrt(b2max) - R, np.sqrt(b2min))
 
@@ -81,4 +82,9 @@ print(np.sqrt(b2max) - R, np.sqrt(b2min))
 Acceptance = 4*np.pi**2*(R + sc.altitude)**2*(np.sum(rates)/Nthrow)
 print(np.sum(rates)/Nthrow, Acceptance)
 print(2*np.pi*R*(2*100)*4*np.pi*(1.62*np.pi/180)*(0.01*np.pi/180))
+
+end_time = time.time()
+
+elapsed_time = end_time - start_time
+print("Elapsed Time: ", elapsed_time)
 #print(2*np.pi*69000*70*4*np.pi*(0.4*np.pi/180)*(0.02*np.pi/180))
