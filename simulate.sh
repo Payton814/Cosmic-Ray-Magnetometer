@@ -1,4 +1,15 @@
-#! /bin/bash
+#!/usr/bin/env bash
+
+#SBATCH -A PAS2277
+
+#SBATCH -t 00:10:00
+#SBATCH --nodes 1
+#SBATCH --ntasks-per-node 10
+#SBATCH --cpus-per-task 1
+#SBATCH --mem=32000MB
+
+TASK="$SLURM_ARRAY_TASK_ID"
+echo "Starting task $TASK"
 
 base_dir="./simulation_data"
 prefix="sim"
@@ -8,21 +19,25 @@ width=5
 mkdir -p "$base_dir"
 
 # Find last existing index
+
+# Start near the current max, but let mkdir decide
 last=$(ls -d "$base_dir"/${prefix}[0-9]* 2>/dev/null \
        | sed "s#.*/${prefix}##" \
        | sort -n \
        | tail -1)
 
-if [[ -z "$last" ]]; then
-    next=0
-else
-    next=$((10#$last + 1))
-fi
+i=${last:- -1}
 
-dirname=$(printf "%s%0*d" "$prefix" "$width" "$next")
-fullpath="$base_dir/$dirname"
+while true; do
+    ((i++))
+    dirname=$(printf "%s%0*d" "$prefix" "$width" "$i")
+    fullpath="$base_dir/$dirname"
 
-mkdir "$fullpath"
+    if mkdir "$fullpath" 2>/dev/null; then
+        echo "Created $fullpath"
+        break
+    fi
+done
 
 NTHROW=10000000
 NRUN=10
@@ -36,7 +51,7 @@ done
 SAVEEVENTS=1
 
 for RUN in $(seq 1 $NRUN); do
-    python3 computeAcceptance.py $NTHROW $RUN "$fullpath/Run$RUN" $SAVEEVENTS&
+    python3 computeAcceptance.py $NTHROW $RUN "$fullpath/Run$RUN" $SAVEEVENTS &
 done
 
 wait
