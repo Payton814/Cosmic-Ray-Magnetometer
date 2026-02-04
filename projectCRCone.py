@@ -31,6 +31,8 @@ def projectCRCone(sc, CR_r0, CR_dir, R = 25362, mask = True):
 
     return ((outerCone > 0) & (innerCone < 0) & (forwardCone > 0))
 
+    #return ((forwardCone > 0))
+
     '''if (outerCone > 0 and innerCone < 0 and forwardCone > 0):
         return 1
     else:

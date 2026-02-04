@@ -25,7 +25,7 @@ fullpath="$base_dir/$dirname"
 mkdir "$fullpath"
 
 
-NTHROW=100000
+NTHROW=1000000
 NRUN=5
 
 for RUN in {1..5}; do
