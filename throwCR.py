@@ -9,7 +9,7 @@ def throwCR(R, N = 1):
 
 
     ## Throw the cosmic ray at a random spot on the uniform sphere
-    CR_latitude = 180*np.acos((2*np.random.random(N) - 1))/np.pi ## This is because when sampling latitude, we need to be uniform in cosine
+    CR_latitude = 180*np.arccos((2*np.random.random(N) - 1))/np.pi ## This is because when sampling latitude, we need to be uniform in cosine
     CR_longitude = 360*np.random.random(N)
 
     ## Take the radius, latitude and longitude, and convert into a x, y, z point on the sphere 

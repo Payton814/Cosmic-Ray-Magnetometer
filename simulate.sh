@@ -24,12 +24,19 @@ fullpath="$base_dir/$dirname"
 
 mkdir "$fullpath"
 
+NTHROW=10000000
+NRUN=10
 
-NTHROW=1000000
-NRUN=5
 
-for RUN in {1..5}; do
-    echo $RUN
-    python3 computeAcceptance.py $NTHROW $RUN $fullpath
+# Create Run folders inside it
+for ((run=1; run<=NRUN; run++)); do
+    mkdir -p "$fullpath/Run$run"
 done
 
+SAVEEVENTS=1
+
+for RUN in $(seq 1 $NRUN); do
+    python3 computeAcceptance.py $NTHROW $RUN "$fullpath/Run$RUN" $SAVEEVENTS&
+done
+
+wait

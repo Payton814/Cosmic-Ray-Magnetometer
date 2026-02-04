@@ -32,7 +32,7 @@ Nthrow = int(sys.argv[1])
 ## Create an array of random spacecraft latitudes and longitudes
 ## Since we want the space craft location to be uniformly distributed on a sphere
 ## because of this, the latitude term is really uniform in cosine.
-sc.lat = 180*np.acos((2*np.random.random(Nthrow) - 1))/np.pi
+sc.lat = 180*np.arccos((2*np.random.random(Nthrow) - 1))/np.pi
 sc.long = 360*np.random.random(Nthrow)
 
 sc.lat = np.zeros(Nthrow)
@@ -47,8 +47,8 @@ sc.long = np.zeros(Nthrow)
 ## larger than the planet)
 CR_r0, CR_dir, CR_lat, CR_long = throwCR(R + 1000, Nthrow)
 
-print(CR_r0)
-print(CR_dir)
+#print(CR_r0)
+#print(CR_dir)
 
 
 b2 = CR_r0[:, 0]**2 + CR_r0[:, 1]**2 + CR_r0[:, 2]**2 - (CR_r0[:, 0]*CR_dir[:, 0] + CR_r0[:, 1]*CR_dir[:, 1] + CR_r0[:, 2]*CR_dir[:, 2])**2
@@ -60,15 +60,19 @@ rates = event.astype(int)
 #print(np.sqrt(b2max) - R, np.sqrt(b2min))
 #Acceptance = 4*np.pi*(R+sc.altitude)**2*(2*np.pi*(np.cos((1.62-0.01)*np.pi/180) - np.cos((1.62+0.01)*np.pi/180)))*np.sum(rates)/Nthrow
 Acceptance = 4*np.pi**2*(R)**2*(np.sum(rates)/Nthrow)
-print(np.sum(rates)/Nthrow, Acceptance)
-print(2*np.pi*R*(2*100)*4*np.pi*(1.62*np.pi/180)*(0.02*np.pi/180))
+#print(np.sum(rates)/Nthrow, Acceptance)
+#print(2*np.pi*R*(2*100)*4*np.pi*(1.62*np.pi/180)*(0.01*np.pi/180))
 #print(2*np.pi*69000*70*4*np.pi*(0.4*np.pi/180)*(0.02*np.pi/180))
 end_time = time.time()
 elapsed_time = end_time - start_time
 
-print(str(int(sys.argv[2])), str(sys.argv[3]))
+#print(str(int(sys.argv[2])), str(sys.argv[3]))
 
 data = pd.DataFrame(data={"Elapsed Time (s)": [elapsed_time], "Number Thrown": [Nthrow], "Number Accepted": [np.sum(rates)], "Planet Radius (km)": [R], "Altitude (km)": [sc.altitude]})
 data.to_csv(str(sys.argv[3]) + '/Run' + str(int(sys.argv[2])) + '.csv')
 
-print("Elapsed Time: ", elapsed_time)
+if (int(sys.argv[4]) == 1):
+    CRdata = pd.DataFrame(data={"CR_x0": CR_r0[mask, 0][rates > 0], "CR_y0": CR_r0[mask, 1][rates > 0], "CR_z0": CR_r0[mask, 2][rates > 0], "CR_dir_x": CR_dir[mask, 0][rates > 0], "CR_dir_y": CR_dir[mask, 1][rates > 0], "CR_dir_z": CR_dir[mask, 2][rates > 0], "CR_latitude": CR_lat[mask][rates > 0], "CR_longitude": CR_long[mask][rates > 0], "Accepted": rates[rates > 0]})
+    CRdata.to_csv(str(sys.argv[3]) + '/Run' + str(int(sys.argv[2])) + '_CRdata.csv')
+
+#print("Elapsed Time: ", elapsed_time)
