@@ -9,7 +9,7 @@ def getDir(r0, N = 1):
         ## For this we need a direction that is below the tangent plane (i.e. w < 0)
         while (w > 0):
             ## Grab a random point on a unit sphere, centered on the cosmic ray entry point
-            theta = 180*np.acos((2*np.random.random() - 1))/np.pi
+            theta = 180*np.arccos((2*np.random.random() - 1))/np.pi
             phi = 360*np.random.random()
 
             ## Convert to the x, y, z value on the unit sphere
