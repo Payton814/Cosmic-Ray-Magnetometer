@@ -12,6 +12,8 @@ import numpy as np
 
 def getTangentPlane(r, lat, long):
 
+    #print(lat.size)
+
     ## Take the radius, latitude and longitude, and convert into a x, y, z point on the sphere 
     x0 = r*np.sin(lat*np.pi/180)*np.cos(long*np.pi/180)
     y0 = r*np.sin(lat*np.pi/180)*np.sin(long*np.pi/180)
@@ -19,7 +21,7 @@ def getTangentPlane(r, lat, long):
 
 
     ## This is the function that describes a plane with normal in the direction of (x0, y0, z0)
-    def f(x, y, z):
-        return 2*x0*(x - x0) + 2*y0*(y - y0) + 2*z0*(z-z0)
+    def f(x, y, z, iter):
+        return 2*x0[iter]*(x - x0[iter]) + 2*y0[iter]*(y - y0[iter]) + 2*z0[iter]*(z - z0[iter])
     
-    return f, (x0, y0, z0)
+    return f, np.array([x0, y0, z0]).transpose()
