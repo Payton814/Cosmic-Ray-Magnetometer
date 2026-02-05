@@ -1,2 +1,0 @@
-/var/spool/slurmd/job6001877/slurm_script: line 49: 3131455 Killed                  python3 computeAcceptance.py $NTHROW $RUN "$fullpath/Run$RUN" $SAVEEVENTS
-[2026-02-04T15:25:38.988] error: Detected 1 oom_kill event in StepId=6001877.batch. Some of the step tasks have been OOM Killed.
