@@ -1,2 +1,2 @@
-,Elapsed Time (s),Number Thrown,Number Accepted,Planet Radius (km),Altitude (km)
-0,154.19354581832886,10000000,19,25362,1000
+,Elapsed Time (s),Number Thrown,Number Accepted,Planet Radius (km),Altitude (km),Acceptance (km^2 sr)
+0,21.858429431915283,100000000,3,25362,1000,3047.249252534257

@@ -6,7 +6,7 @@
 #SBATCH --nodes 1
 #SBATCH --ntasks-per-node 10
 ##SBATCH --cpus-per-task 1
-#SBATCH --mem=32000MB
+#SBATCH --mem=128000MB
 
 TASK="$SLURM_ARRAY_TASK_ID"
 echo "Starting task $TASK"
@@ -43,7 +43,7 @@ while true; do
     fi
 done
 
-NTHROW=10000000
+NTHROW=100000000
 NRUN=10
 
 

@@ -45,10 +45,11 @@ sc.long = 360*np.random.random(Nthrow)
 ## NOTE: Thinking about changing the output of throwCR to be a cosmic ray object. But I need to create
 ## a cosmic ray class first. Sigh, later me problems. Or maybe I can find an undergrad to do this.
 
-## throwCR will take in the imaginary sphere that cosmic rays are entering (Since were interacting in the
-## atmosphere then we are some distance above the surface, so we need to start by throwing them into a sphere
-## larger than the planet)
-CR_r0, CR_dir, CR_lat, CR_long = throwCR(R + 1000, Nthrow)
+## throwCR will take in the radius of the planet and the number of cosmic rays thrown
+## what it does it is uniformally sample points in the planet which will act as the 
+## vertex of the cosmic ray interaction. It then samples a direction for the cosmic ray
+## to be going.
+CR_r0, CR_dir, CR_lat, CR_long = throwCR(R, Nthrow)
 
 #print(CR_r0)
 #print(CR_dir)
@@ -62,7 +63,7 @@ event = projectCRCone(sc, CR_r0[mask], CR_dir[mask], R, mask)
 rates = event.astype(int)
 #print(np.sqrt(b2max) - R, np.sqrt(b2min))
 #Acceptance = 4*np.pi*(R+sc.altitude)**2*(2*np.pi*(np.cos((1.62-0.01)*np.pi/180) - np.cos((1.62+0.01)*np.pi/180)))*np.sum(rates)/Nthrow
-Acceptance = 4*np.pi**2*(R)**2*(np.sum(rates)/Nthrow)
+Acceptance = 16*np.pi**2*(R)**2*(np.sum(rates)/Nthrow)
 #print(np.sum(rates)/Nthrow, Acceptance)
 #print(2*np.pi*R*(2*100)*4*np.pi*(1.62*np.pi/180)*(0.01*np.pi/180))
 #print(2*np.pi*69000*70*4*np.pi*(0.4*np.pi/180)*(0.02*np.pi/180))
@@ -71,11 +72,11 @@ elapsed_time = end_time - start_time
 
 #print(str(int(sys.argv[2])), str(sys.argv[3]))
 
-data = pd.DataFrame(data={"Elapsed Time (s)": [elapsed_time], "Number Thrown": [Nthrow], "Number Accepted": [np.sum(rates)], "Planet Radius (km)": [R], "Altitude (km)": [sc.altitude]})
+data = pd.DataFrame(data={"Elapsed Time (s)": [elapsed_time], "Number Thrown": [Nthrow], "Number Accepted": [np.sum(rates)], "Planet Radius (km)": [R], "Altitude (km)": [sc.altitude], "Acceptance (km^2 sr)": [Acceptance]})
 data.to_csv(str(sys.argv[3]) + '/Run' + str(int(sys.argv[2])) + '.csv')
 
 if (int(sys.argv[4]) == 1):
-    CRdata = pd.DataFrame(data={"CR_x0": CR_r0[mask, 0][rates > 0], "CR_y0": CR_r0[mask, 1][rates > 0], "CR_z0": CR_r0[mask, 2][rates > 0], "CR_dir_x": CR_dir[mask, 0][rates > 0], "CR_dir_y": CR_dir[mask, 1][rates > 0], "CR_dir_z": CR_dir[mask, 2][rates > 0], "CR_latitude": CR_lat[mask][rates > 0], "CR_longitude": CR_long[mask][rates > 0], "Accepted": rates[rates > 0]})
+    CRdata = pd.DataFrame(data={"CR_x0": CR_r0[mask, 0][rates > 0], "CR_y0": CR_r0[mask, 1][rates > 0], "CR_z0": CR_r0[mask, 2][rates > 0], "CR_dir_x": CR_dir[mask, 0][rates > 0], "CR_dir_y": CR_dir[mask, 1][rates > 0], "CR_dir_z": CR_dir[mask, 2][rates > 0], "Accepted": rates[rates > 0]})
     CRdata.to_csv(str(sys.argv[3]) + '/Run' + str(int(sys.argv[2])) + '_CRdata.csv')
 
 #print("Elapsed Time: ", elapsed_time)
