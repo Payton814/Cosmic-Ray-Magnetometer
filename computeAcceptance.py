@@ -35,8 +35,8 @@ Nthrow = int(sys.argv[1])
 sc.lat = 180*np.arccos((2*np.random.random(Nthrow) - 1))/np.pi
 sc.long = 360*np.random.random(Nthrow)
 
-sc.lat = np.zeros(Nthrow)
-sc.long = np.zeros(Nthrow)
+#sc.lat = np.zeros(Nthrow)
+#sc.long = np.zeros(Nthrow)
 
 
 ## NOTE: Thinking about changing the output of throwCR to be a cosmic ray object. But I need to create

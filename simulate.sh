@@ -5,7 +5,7 @@
 #SBATCH -t 00:10:00
 #SBATCH --nodes 1
 #SBATCH --ntasks-per-node 10
-#SBATCH --cpus-per-task 1
+##SBATCH --cpus-per-task 1
 #SBATCH --mem=32000MB
 
 TASK="$SLURM_ARRAY_TASK_ID"
@@ -26,7 +26,11 @@ last=$(ls -d "$base_dir"/${prefix}[0-9]* 2>/dev/null \
        | sort -n \
        | tail -1)
 
-i=${last:- -1}
+if [[ -z "$last" ]]; then
+    i=-1
+else
+    i=$((10#$last))
+fi
 
 while true; do
     ((i++))
