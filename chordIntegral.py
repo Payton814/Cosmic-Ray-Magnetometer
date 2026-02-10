@@ -10,7 +10,7 @@ b = np.linspace(Ru, Ru + 150e3, 1000)
 
 for i in range(len(b)):
     def density(r):
-        return 0.47*np.exp(-(r - Ru)/30e3)*r/(np.sqrt(r**2 - b[i]**2+0.01))
+        return 0.42*np.exp(-(r - Ru)/30e3)*r/(np.sqrt(r**2 - b[i]**2+0.01))
 
     I = quad(density, b[i], np.inf) ## This answer is in kg/m^2
     X.append(I[0]*0.1)
