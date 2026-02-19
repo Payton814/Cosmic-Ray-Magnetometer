@@ -6,7 +6,7 @@
 #SBATCH --nodes 1
 #SBATCH --ntasks-per-node 10
 ##SBATCH --cpus-per-task 1
-#SBATCH --mem=128000MB
+#SBATCH --mem=196000MB
 
 TASK="$SLURM_ARRAY_TASK_ID"
 echo "Starting task $TASK"
@@ -43,8 +43,8 @@ while true; do
     fi
 done
 
-NTHROW=100000000
-NRUN=10
+NTHROW=1000000000
+NRUN=1
 
 
 # Create Run folders inside it

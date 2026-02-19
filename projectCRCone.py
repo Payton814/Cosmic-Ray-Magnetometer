@@ -26,8 +26,10 @@ def projectCRCone(sc, CR_r0, CR_dir, R = 25362, mask = True):
     
     ## While the emission wavefront collowing along a curve, off cone events lower the incident power
     ## Therefore we create 2 cones that decribe how far off cone in either direction we can see.
-    outerCone = f(sc_x, sc_y, sc_z, CR_r0[:,0], CR_r0[:,1], CR_r0[:,2], (1.62 + 0.04)*np.pi/180, CR_theta, CR_phi)
-    innerCone = f(sc_x, sc_y, sc_z, CR_r0[:,0], CR_r0[:,1], CR_r0[:,2], (1.62 - 0.04)*np.pi/180, CR_theta, CR_phi)
+    outerCone = f(sc_x, sc_y, sc_z, CR_r0[:,0], CR_r0[:,1], CR_r0[:,2], (1.62 + 0.01)*np.pi/180, CR_theta, CR_phi)
+    innerCone = f(sc_x, sc_y, sc_z, CR_r0[:,0], CR_r0[:,1], CR_r0[:,2], (1.62 - 0.01)*np.pi/180, CR_theta, CR_phi)
+
+    cut = ((outerCone > 0) & (innerCone < 0) & (forwardCone > 0))
 
     return ((outerCone > 0) & (innerCone < 0) & (forwardCone > 0))
 
